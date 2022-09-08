@@ -1,0 +1,12 @@
+{
+  "name": "manage",
+  "version": "1.0.0",
+  "description": "A soft introduction to npm",
+  "main": "index.php",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "WMuchiri",
+  "license": "ISC",
+  "dependencies": {}
+}

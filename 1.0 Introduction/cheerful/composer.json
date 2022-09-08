@@ -1,0 +1,16 @@
+{
+  "name": "Cheerful Project",
+  "description": "Is anyone cheerful, let him compose praise!",
+  "authors": [
+    {
+      "name": "WMuchiri",
+      "email":  "wmuchiri@strathmore.edu"
+    }
+  ],
+  "require": {
+    "monolog/monolog": "2.0.2"
+  },
+  "require-dev": {
+    "fzaninotto/faker":"1.9.*"
+  }
+}
