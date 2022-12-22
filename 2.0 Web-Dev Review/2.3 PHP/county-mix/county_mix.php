@@ -1,5 +1,4 @@
 <?php
-
 // a string of county data
 $county_data = "1. Mombasa. – Abdulswamad Nassir – ODM,
 2. Kwale. – Fatuma Achani – UDA,
@@ -48,120 +47,140 @@ $county_data = "1. Mombasa. – Abdulswamad Nassir – ODM,
 45. Kisii. – Simba Arati – ODM,
 46. Nyamira. – Amos Nyaribo - UPA,
 47. Nairobi. – Johnson Sakaja – UDA";
+
+
 // You should NOT modify anything above this line
 
 // Your code starts here
-//print $county_data; //primitive types
-$county_array=explode(',',$county_data);
-//print "<h1> The array</h1>";
+
+print $county_data;
+
+/*
+//splitting this data (splitting strings in php)
+
+$small_string = "Ian Hubert";
+$small_array = explode(' ', $small_string);
+
+//print out small array // for prititng complex variables you use var_dump
+
+print "<br/>";
+print "<p>this is using var_dump</p>";
+var_dump($small_array);
+
+print "<br/>";
+print_r($small_array);
+*/
+$county_array = explode(",", $county_data);
+
+//print "<h1>the array</h1>";
 //var_dump($county_array);
-//print "<h1>the contents of the array </h1>";
-//echo $county_array[0].'<br/>';
-//echo $county_array[20].'<br/>';
-//echo $county_array[40].'<br/>';
-//print "<h1>The second part</h1>";
-//print_r(explode('– ',$county_array[20]));echo "<br/>";
-//print_r(explode('– ',$county_array[40]));echo "<br/>";
-//use loops
+//print "<h1>array contents</h1>";
+//echo $county_array[0]. '<br/>';
+//echo $county_array[20]. '<br/>';
+//echo $county_array[40]. '<br/>';
+//echo $county_array[20]. '<br/>';
+
+//print "<h1>second part</h1>";
+//print_r (explode ("–", $county_array[0]) ) ; echo "<br/>";
+//print_r (explode ("–", $county_array[20]) ) ; echo "<br/>";
+//print_r (explode ("–", $county_array[40]) ) ; echo "<br/>";
+//print_r (explode ("–", $county_array[46]) ) ; echo "<br/>";
 echo '<table border=1 cellspacing=5 cellpadding=5>';
 echo '<thead>';
 echo '<tr>';
-
-echo '<th> #</th>c <th> county</th> <th> governor</th> <th> party</th>';
+echo '<th>#</th> <th>County</th>';
+echo '<th>Governor</th> <th>Party</th>';
 echo '</tr>';
 echo '</thead>';
-$party_count=array();
-
-
-foreach($county_array as $key =>$row):
-  echo "<tr>";
-  $cells=explode('– ',$row);
-
-  foreach($cells as $key=>$cell):
-    if($key==0){
-      $temp=explode('.',$cell);
-      echo '<td>'.$temp[0].'</td>';
-          echo '<td>'.$temp[1].'</td>';
+$party_count = array();
+foreach ($county_array as $key => $row):
+  //echo "<tr>";
+  //echo "<br/>ROW : ".$row;
+  $cells = explode('–', $row);
+  foreach ($cells as $key => $cell):
+    if($key == 0){
+      //1.Mombasa
+      //2.Kwale
+      $temp = explode('.', $cell);
+      echo'<td>'.$temp[0].'</td>';
+      echo'<td>'.$temp[1].'</td>';
     }elseif ($key==1) {
-      if(strpos($cell,'- ')){
-        $temp=explode('-',$cell);
-        echo '<td>'.$temp[0].'</td>';
-            echo '<td>'.$temp[1].'</td>';
-                $party_count[]=$temp[1];
-      }else{
-        echo "<td>$cell</cell>";
+      if (strpos($cell, '-')){
+        // governorname - Party
+        $temp = explode('-', $cell);
+        echo'<td>'.$temp[0].'</td>';
+        echo'<td>'.$temp[1].'</td>';
+        $party_count[] = $temp[1];
+      }else {
+        echo "<td>$cell</td>";
       }
-
-    }else{
-      $party_count[]=$cell;
-
-      echo "<td>$cell</cell>";
     }
-
-endforeach;
+    else
+    {   //adding every political party to the array e.g. UDA, ODM
+        $party_count[] = $cell;
+        echo "<td>$cell</td>";
+    }
+  endforeach;
   echo "</tr>";
 endforeach;
-echo "</table>";
-//var_dump($party_count);
-//count how many uda are in the party count array
-//$nice_array=['UDA'=>2];
-echo '<br>';
+echo "</table></div>";
+json_encode($party_count);
 //print_r(array_count_values($party_count));
-//kavuu ;)
-$nice_array=array_count_values($party_count);
-
-
-
-
-
-//splitting the data in php
-//$small_string="George Kwezi";
-//$small_array = explode(' ',$small_string);
-//print "<br/>";
-
-//var_dump($small_array);
-//print "<br/>";
-
+$nice_array = array_count_values($party_count);
+//var_dump(array_keys($nice_array));
 ?>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js" integrity="sha256-+8RZJua0aEWg+QVVKg4LEzEEm/8RFez5Tb4JBNiV5xA=" crossorigin="anonymous"></script>
-<canvas id="myChart" width="50" height="50" circumference="50">
-</canvas>
-<script>
-const ctx = document.getElementById('myChart').getContext('2d');
-const myChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-        labels: <?php echo json_encode(array_keys($nice_array))?>,
-        datasets: [{
-            label: '# of Votes',
-            data:  <?php echo json_encode(array_values($nice_array))?>,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
+<!DOCTYPE html>
+<html>
+  <head>
+  <style type="text/css">
+      .chartBox{
+        width: 400px;
 
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-
-            }
-        }
-    }
-});
-</script>
+      }
+  </style>
+  <title></title>
+  </head>
+  <body>
+  <div class="chartBox">
+      <canvas id="myChart"></canvas>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js" integrity="sha256-+8RZJua0aEWg+QVVKg4LEzEEm/8RFez5Tb4JBNiV5xA=" crossorigin="anonymous"></script>
+  <script>
+  const ctx = document.getElementById('myChart').getContext('2d');
+  const myChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+          labels: <?php echo json_encode(array_keys($nice_array)); ?> ,
+          datasets: [{
+              label: 'Party names',
+              data: <?php echo json_encode(array_values($nice_array)); ?>,
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+  </script>
+  </body>
+</html>
