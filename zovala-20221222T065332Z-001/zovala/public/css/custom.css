@@ -1,0 +1,7 @@
+.navbar-vertical .navbar-nav .nav-item .nav-link .icon i{
+    color: black;
+}
+/*when the link is active set the icon to white else if innactive set to black*/
+.navbar-vertical .navbar-nav .nav-item .nav-link.active .icon i{
+    color: white;
+}
