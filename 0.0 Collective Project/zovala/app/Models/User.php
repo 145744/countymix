@@ -8,13 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model
 {
     use HasFactory;
+
     protected $table = "users";
-    protected $primaryKeey = "id";
-    protected $fillable = ['surname','other_names','username','gender','otp','password','phone','email','role_id','town_id'];
+    protected $primaryKey = "id";
+    //which field can be filled in from this application
+    protected $fillable = ['surname','other_names','username','gender','phone','email','password','otp','role_id','town_id'];
 
-    //Juma, customer
+
+
+    //[Alfred belongsTo the role Admin]
     public function role(){
-        $this->belongsTo(Role::class);
-
+        return $this->belongsTo(Role::class);
     }
 }
